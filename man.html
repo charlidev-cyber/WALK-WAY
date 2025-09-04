@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Men's Footwear</title>
+  <link rel="stylesheet" href="mstyle.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <!-- Left Side Actions -->
+      <div class="header-left">
+        <a href="login.html" class="action-btn login-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          LOGIN
+        </a>
+        <button class="action-btn wishlist-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+          WISHLIST
+        </button>
+        <button class="action-btn cart-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          CART (0)
+        </button>
+      </div>
+
+      <!-- Center Logo -->
+      <div class="logo">WALK WAY</div>
+
+      <!-- Right Side Search -->
+      <div class="header-right">
+        <div class="search-container">
+          <input type="text" placeholder="Search shoes..." class="search-input">
+          <button class="search-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Navigation Bar Below Header -->
+    <div class="nav-container">
+      <nav class="nav">
+        <a href="index.html">HOME</a>
+        <a href="man.html" class="active">MEN'S</a>
+        <a href="women.html">WOMEN'S</a>
+        <a href="kid.html">KID'S</a>
+        <a href="sale.html">SALE</a>
+        <a href="about.html">ABOUT US</a>
+      </nav>
+    </div>
+  </header>
+
+<!-- Hero Section with Banner Slider -->
+  <section class="hero">
+    <div class="slider">
+      <div class="slides">
+        <div class="slide active">
+          <img src="images/mb-1.jpg" alt="Premium Sneakers">
+          <div class="caption">
+            <h2>Premium Sneakers</h2>
+            <p>Step into luxury with our exclusive collection</p>
+            <a href="#" class="btn">Shop Now</a>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="images/mb-2.jpg" alt="Sports Collection">
+          <div class="caption">
+            <h2>Sports Collection</h2>
+            <p>Performance meets style for the active man</p>
+            <a href="#" class="btn">Explore</a>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="images/menbanner.jpg" alt="Designer Footwear">
+          <div class="caption">
+            <h2>Designer Footwear</h2>
+            <p>Luxury brands for the discerning gentleman</p>
+            <a href="#" class="btn">Discover</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Arrows -->
+      <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
+      <button class="next" onclick="changeSlide(1)">&#10095;</button>
+    </div>
+  </section>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+
+    function showSlide(index) {
+      slides.forEach(slide => slide.classList.remove('active'));
+      slides[index].classList.add('active');
+    }
+
+    function changeSlide(direction) {
+      currentSlide += direction;
+      if (currentSlide >= totalSlides) currentSlide = 0;
+      if (currentSlide < 0) currentSlide = totalSlides - 1;
+      showSlide(currentSlide);
+    }
+
+    // Auto-slide every 5 seconds
+    setInterval(() => {
+      changeSlide(1);
+    }, 5000);
+  </script>
+
+  <div class="line-separator">
+    <span>NEW ARRIVALS</span>
+  </div>
+
+  <!-- 🔹 Men Section -->
+  <main>
+    <section>
+      <h2>Men’s Footwear</h2>
+      <div class="products">
+
+  <!-- Product 1 -->
+  <div class="product">
+    <img src="images/sn1.jpg" alt="Running Shoe">
+    <h3>PUMA Speedcat OG Sneakers</h3>
+    <div class="rating">⭐⭐⭐⭐☆ <span>(145)</span></div>
+    <div class="price">₹10,999 <span class="mrp">₹24,499</span></div>
+    <div class="offer">20% Off</div>
+    <div class="delivery">Get it by <b>Sep 6</b></div>
+    <button>Add to Cart</button>
+  </div>
+
+  <!-- Product 2 -->
+  <div class="product">
+    <img src="images/sn2.jpg" alt="Formal Shoe">
+    <h3>PUMA X-ray Prism Men's Sneakers</h3>
+    <div class="rating">⭐⭐⭐⭐☆ <span>(98)</span></div>
+    <div class="price">₹5,999 <span class="mrp">₹8,599</span></div>
+    <div class="offer">22% Off</div>
+    <div class="delivery">Get it by <b>Sep 5</b></div>
+    <button>Add to Cart</button>
+  </div>
+
+  <!-- Product 3 -->
+  <div class="product">
+    <img src="images/sn3.jpg" alt="Sneakers">
+    <h3>PUMA F1 Inhale 75 YRS Sneakers</h3>
+    <div class="rating">⭐⭐⭐⭐⭐ <span>(76)</span></div>
+    <div class="price">₹10,999 <span class="mrp">₹10,999</span></div>
+    <div class="offer">0% Off</div>
+    <div class="delivery">Get it by <b>Sep 7</b></div>
+    <button>Add to Cart</button>
+  </div>
+
+  <!-- Product 4 -->
+  <div class="product">
+    <img src="images/sn4.jpg" alt="Boots">
+    <h3>PUMA BMW M Motorsport M4 Hero Inverse Sneakers</h3>
+    <div class="rating">⭐⭐⭐⭐⭐ <span>(201)</span></div>
+    <div class="price">₹11,999 <span class="mrp">₹14,199</span></div>
+    <div class="offer">17% Off</div>
+    <div class="delivery">Get it by <b>Sep 8</b></div>
+    <button>Add to Cart</button>
+  </div>
+
+  <!-- Product 5 -->
+  <div class="product">
+    <img src="images/SN5.jpg" alt="Loafers">
+    <h3>NIKE Jordan Spizike Low SE</h3>
+    <div class="rating">⭐⭐⭐⭐☆ <span>(132)</span></div>
+    <div class="price">₹15,995 <span class="mrp">₹24,899</span></div>
+    <div class="offer">21% Off</div>
+    <div class="delivery">Get it by <b>Sep 6</b></div>
+    <button>Add to Cart</button>
+  </div>
+
+  <!-- Product 6 -->
+  <div class="product">
+    <img src="images/SN6.JPG" alt="Sandals">
+    <h3>NIKE Air Jordan 4 Retro 'Aluminium'</h3>
+    <div class="rating">⭐⭐⭐☆☆ <span>(64)</span></div>
+    <div class="price">₹19,495 <span class="mrp">₹25,299</span></div>
+    <div class="offer">23% Off</div>
+    <div class="delivery">Get it by <b>Sep 4</b></div>
+    <button>Add to Cart</button>
+  </div>
+
+  <!-- Product 7 -->
+  <div class="product">
+    <img src="images/SN7.JPG" alt="Sneakers">
+    <h3>NIKE Mercurial Superfly 10 Elite 'Sam Kerr'</h3>
+    <div class="rating">⭐⭐⭐⭐⭐ <span>(220)</span></div>
+    <div class="price">₹28,299 <span class="mrp">₹34,799</span></div>
+    <div class="offer">25% Off</div>
+    <div class="delivery">Get it by <b>Sep 9</b></div>
+    <button>Add to Cart</button>
+  </div>
+
+  <!-- Product 8 -->
+  <div class="product">
+    <img src="images/SN8.JPG" alt="Slippers">
+    <h3>NIKE Jordan 'Why Not?' Zer0.3 PF</h3>
+    <div class="rating">⭐⭐⭐☆☆ <span>(54)</span></div>
+    <div class="price">₹11,895 <span class="mrp">₹18,699</span></div>
+    <div class="offer">28% Off</div>
+    <div class="delivery">Get it by <b>Sep 3</b></div>
+    <button>Add to Cart</button>
+  </div>
+
+  <!-- Product 9 -->
+  <div class="product">
+    <img src="images/SN9.JPG" alt="Sports Shoes">
+    <h3>PRADA Laced leather booties</h3>
+    <div class="rating">⭐⭐⭐⭐☆ <span>(174)</span></div>
+    <div class="price">₹1,43,799 <span class="mrp">₹1,89,299</span></div>
+    <div class="offer">22% Off</div>
+    <div class="delivery">Get it by <b>Sep 10</b></div>
+    <button>Add to Cart</button>
+  </div>
+
+  <!-- Product 10 -->
+  <div class="product">
+    <img src="images/SN10.JPG" alt="Party Shoes">
+    <h3>BALENCIAGA Men's Track Sneaker With Charms in Black</h3>
+    <div class="rating">⭐⭐⭐⭐⭐ <span>(88)</span></div>
+    <div class="price">₹3,40,199 <span class="mrp">₹3,80,999</span></div>
+    <div class="offer">20% Off</div>
+    <div class="delivery">Get it by <b>Sep 11</b></div>
+    <button>Add to Cart</button>
+  </div>
+
+  <!-- Product 11 -->
+  <div class="product">
+    <img src="images/SN11.JPG" alt="Slippers">
+    <h3>DIOR B30 Countdown Sneaker</h3>
+    <div class="rating">⭐⭐⭐☆☆ <span>(42)</span></div>
+    <div class="price">₹2,25,000 <span class="mrp">₹2,45,599</span></div>
+    <div class="offer">33% Off</div>
+    <div class="delivery">Get it by <b>Sep 4</b></div>
+    <button>Add to Cart</button>
+  </div>
+
+  <!-- Product 12 -->
+  <div class="product">
+    <img src="images/SN12.JPG" alt="Sneakers">
+    <h3>GUCCI Men's Horsebit 1953 Loafers</h3>
+    <div class="rating">⭐⭐⭐⭐☆ <span>(132)</span></div>
+    <div class="price">₹1,11,899 <span class="mrp">₹1,32,399</span></div>
+    <div class="offer">21% Off</div>
+    <div class="delivery">Get it by <b>Sep 6</b></div>
+    <button>Add to Cart</button>
+  </div>
+
+  <!-- Product 13 -->
+  <div class="product">
+    <img src="images/sn13.jpg" alt="Formal Shoe">
+    <h3>adidas x Gucci Gazelle Blue GG Monogram</h3>
+    <div class="rating">⭐⭐⭐⭐⭐ <span>(111)</span></div>
+    <div class="price">₹98,011 <span class="mrp">₹1,33,599</span></div>
+    <div class="offer">17% Off</div>
+    <div class="delivery">Get it by <b>Sep 8</b></div>
+    <button>Add to Cart</button>
+  </div>
+
+  <!-- Product 14 -->
+  <div class="product">
+    <img src="images/sn14.jpg" alt="Loafers">
+    <h3>Louis Vuitton Nike Air Force 1 Low By Virgil Abloh Black Metallic Silver</h3>
+    <div class="rating">⭐⭐⭐☆☆ <span>(58)</span></div>
+    <div class="price">₹8,92,499 <span class="mrp">₹9,01,899</span></div>
+    <div class="offer">21% Off</div>
+    <div class="delivery">Get it by <b>Sep 7</b></div>
+    <button>Add to Cart</button>
+  </div>
+
+  <!-- Product 15 -->
+  <div class="product">
+    <img src="images/sn15.jpg" alt="Sneakers">
+    <h3>AMIRI MA-1 Black Alabaster</h3>
+    <div class="rating">⭐⭐⭐⭐⭐ <span>(201)</span></div>
+    <div class="price">₹71,499 <span class="mrp">₹75,899</span></div>
+    <div class="offer">21% Off</div>
+    <div class="delivery">Get it by <b>Sep 9</b></div>
+    <button>Add to Cart</button>
+  </div>
+
+  <!-- Product 16 -->
+  <div class="product">
+    <img src="images/sn16.jpg" alt="Boots">
+    <h3>Louis Vuitton LV Trainer Takashi Murakami White</h3>
+    <div class="rating">⭐⭐⭐⭐☆ <span>(144)</span></div>
+    <div class="price">₹1,59,879 <span class="mrp">₹1,70,299</span></div>
+    <div class="offer">19% Off</div>
+    <div class="delivery">Get it by <b>Sep 10</b></div>
+    <button>Add to Cart</button>
+  </div>
+
+  <!-- Product 17 -->
+  <div class="product">
+    <img src="images/sn17.jpg" alt="Sandals">
+    <h3>On Running Cloudtilt Loewe Sand</h3>
+    <div class="rating">⭐⭐⭐☆☆ <span>(32)</span></div>
+    <div class="price">₹75,899 <span class="mrp">₹69,999</span></div>
+    <div class="offer">30% Off</div>
+    <div class="delivery">Get it by <b>Sep 5</b></div>
+    <button>Add to Cart</button>
+  </div>
+
+  <!-- Product 18 -->
+  <div class="product">
+    <img src="images/sn18.jpg" alt="Formal Shoe">
+    <h3>Jordan 4 Retro OG SP Undefeated (2025)</h3>
+    <div class="rating">⭐⭐⭐⭐⭐ <span>(89)</span></div>
+    <div class="price">₹38,499 <span class="mrp">₹40,899</span></div>
+    <div class="offer">18% Off</div>
+    <div class="delivery">Get it by <b>Sep 8</b></div>
+    <button>Add to Cart</button>
+  </div>
+
+  <!-- Product 19 -->
+  <div class="product">
+    <img src="images/sn19.jpg" alt="Sneakers">
+    <h3>On Running Cloudmonster 2 White Flame</h3>
+    <div class="rating">⭐⭐⭐⭐☆ <span>(177)</span></div>
+    <div class="price">₹23,099 <span class="mrp">₹29,699</span></div>
+    <div class="offer">22% Off</div>
+    <div class="delivery">Get it by <b>Sep 12</b></div>
+    <button>Add to Cart</button>
+  </div>
+
+  <!-- Product 20 -->
+  <div class="product">
+    <img src="images/sn20.jpg" alt="Casual Shoes">
+    <h3>adidas Adistar Jellyfish Pharrell Williams Focus Olive Orange</h3>
+    <div class="rating">⭐⭐⭐☆☆ <span>(65)</span></div>
+    <div class="price">₹76,299 <span class="mrp">₹82,699</span></div>
+    <div class="offer">24% Off</div>
+    <div class="delivery">Get it by <b>Sep 11</b></div>
+    <button>Add to Cart</button>
+  </div>
+
+</div>
+    </section>
+  </main>
+
+ <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <h3>Shopping</h3>
+        <p><a href="man.html">Men's Footwear</a></p>
+        <p><a href="women.html">Women's Footwear</a></p>
+        <p><a href="kid.html">Kids' Footwear</a></p>
+        <p><a href="#">Sale & Offers</a></p>
+      </div>
+      <div class="footer-col">
+        <h3>Company</h3>
+        <p><a href="#">About WalkWay</a></p>
+        <p><a href="#">Careers</a></p>
+        <p><a href="#">Our Stores</a></p>
+        <p><a href="#">Contact Us</a></p>
+      </div>
+      <div class="footer-col">
+        <h3>Customer Care</h3>
+        <p><a href="#">FAQs</a></p>
+        <p><a href="#">Size Guide</a></p>
+        <p><a href="#">Return Policy</a></p>
+        <p><a href="#">Track Order</a></p>
+      </div>
+      <div class="footer-col">
+        <h3>Connect With Us</h3>
+        <p><a href="#">Facebook</a></p>
+        <p><a href="#">Instagram</a></p>
+        <p><a href="#">Twitter</a></p>
+        <p><a href="#">YouTube</a></p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 WalkWay. All rights reserved. | Designed with ❤️ for shoe lovers</p>
+    </div>
+  </footer>
+  <script src="main.js"></script>
+</body>
+</html>

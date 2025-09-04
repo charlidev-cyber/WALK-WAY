@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WALKWAY</title>
+  <link rel="stylesheet" href="ki.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <!-- Left Side Actions -->
+      <div class="header-left">
+        <a href="login.html" class="action-btn login-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          LOGIN
+        </a>
+        <button class="action-btn wishlist-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+          WISHLIST
+        </button>
+        <button class="action-btn cart-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          CART (0)
+        </button>
+      </div>
+
+      <!-- Center Logo -->
+      <div class="logo">WALK WAY</div>
+
+      <!-- Right Side Search -->
+      <div class="header-right">
+        <div class="search-container">
+          <input type="text" placeholder="Search shoes..." class="search-input">
+          <button class="search-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Navigation Bar Below Header -->
+    <div class="nav-container">
+      <nav class="nav">
+        <a href="index.html">HOME</a>
+        <a href="man.html">MEN'S</a>
+        <a href="women.html">WOMEN'S</a>
+        <a href="kid.html" class="active">KID'S</a>
+        <a href="sale.html">SALE</a>
+        <a href="about.html">ABOUT US</a>
+      </nav>
+    </div>
+  </header>
+
+<!-- Hero Section with Banner Slider -->
+  <section class="hero">
+    <div class="slider">
+      <div class="slides">
+        <div class="slide active">
+          <img src="images/B1.JPG" alt="Kids Adventure Collection">
+          <div class="caption">
+            <h2>Kids Adventure Collection</h2>
+            <p>Fun and comfort for little explorers</p>
+            <a href="#" class="btn">Shop Now</a>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="images/KB.JPG" alt="Kids Sports Shoes">
+          <div class="caption">
+            <h2>Kids Sports Collection</h2>
+            <p>Active wear for active kids</p>
+            <a href="#" class="btn">Explore</a>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="images/KB2.JPG" alt="Kids Casual Wear">
+          <div class="caption">
+            <h2>Kids Casual Collection</h2>
+            <p>Stylish and comfortable everyday shoes</p>
+            <a href="#" class="btn">Discover</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Arrows -->
+      <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
+      <button class="next" onclick="changeSlide(1)">&#10095;</button>
+    </div>
+  </section>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+
+    function showSlide(index) {
+      slides.forEach(slide => slide.classList.remove('active'));
+      slides[index].classList.add('active');
+    }
+
+    function changeSlide(direction) {
+      currentSlide += direction;
+      if (currentSlide >= totalSlides) currentSlide = 0;
+      if (currentSlide < 0) currentSlide = totalSlides - 1;
+      showSlide(currentSlide);
+    }
+
+    // Auto-slide every 5 seconds
+    setInterval(() => {
+      changeSlide(1);
+    }, 5000);
+  </script>
+
+  <!-- Kids Section -->
+  <main>
+    <section>
+      <h2>Kids' Footwear</h2>
+      <div class="products">
+  <!-- Product 1 -->
+  <div class="product">
+    <img src="images/s1.jpg" alt="Kids Sneakers">
+    <h3>Kids Sport Sneakers</h3>
+    <div class="rating">⭐⭐⭐⭐☆ <span>(145)</span></div>
+    <div class="price">₹1,299 <span class="mrp">₹2,499</span></div>
+    <div class="offer">48% off</div>
+    <div class="delivery">Get it by <b>Wednesday, 4 Sept</b></div>
+    <button>Add to Cart</button>
+  </div>
+
+  <!-- Product 5 -->
+  <div class="product">
+    <img src="images/s2.jpg" alt="Kids Running Shoes">
+    <h3>Kids Running Shoes</h3>
+    <div class="rating">⭐⭐⭐⭐⭐ <span>(298)</span></div>
+    <div class="price">₹899 <span class="mrp">₹1,799</span></div>
+    <div class="offer">50% off</div>
+    <div class="delivery">Get it by <b>Thursday, 5 Sept</b></div>
+    <button>Add to Cart</button>
+  </div>
+
+  <!-- Product 2 -->
+  <div class="product">
+    <img src="images/s5.jpg" alt="Kids Casual Shoes">
+    <h3>Kids Casual Shoes</h3>
+    <div class="rating">⭐⭐⭐⭐☆ <span>(176)</span></div>
+    <div class="price">₹1,599 <span class="mrp">₹2,999</span></div>
+    <div class="offer">47% off</div>
+    <div class="delivery">Get it by <b>Friday, 6 Sept</b></div>
+    <button>Add to Cart</button>
+  </div>
+
+  <!-- Product 3 -->
+  <div class="product">
+    <img src="images/Adidas.jpg" alt="Adidas Kids Shoes">
+    <h3>Adidas Kids Collection</h3>
+    <div class="rating">⭐⭐⭐⭐⭐ <span>(432)</span></div>
+    <div class="price">₹2,199 <span class="mrp">₹3,999</span></div>
+    <div class="offer">45% off</div>
+    <div class="delivery">Get it by <b>Saturday, 7 Sept</b></div>
+    <button>Add to Cart</button>
+  </div>
+  <!-- Product 4 -->
+  <div class="product">
+    <img src="images/Campus.jpg" alt="Kids Campus Shoes">
+    <h3>Campus Kids Shoes</h3>
+    <div class="rating">⭐⭐⭐⭐☆ <span>(89)</span></div>
+    <div class="price">₹1,199 <span class="mrp">₹2,199</span></div>
+    <div class="offer">45% off</div>
+    <div class="delivery">Get it by <b>Monday, 9 Sept</b></div>
+    <button>Add to Cart</button>
+  </div>
+  <!-- Product 6 -->
+  <div class="product">
+    <img src="images/Campus.jpg" alt="Kids Campus Shoes">
+    <h3>Campus Kids Shoes</h3>
+    <div class="rating">⭐⭐⭐⭐☆ <span>(89)</span></div>
+    <div class="price">₹1,199 <span class="mrp">₹2,199</span></div>
+    <div class="offer">45% off</div>
+    <div class="delivery">Get it by <b>Monday, 9 Sept</b></div>
+    <button>Add to Cart</button>
+  </div>
+
+  <!-- Product 7 -->
+  <div class="product">
+    <img src="images/Boltfit.jpg" alt="Kids Sports Shoes">
+    <h3>Kids Sports Collection</h3>
+    <div class="rating">⭐⭐⭐⭐⭐ <span>(156)</span></div>
+    <div class="price">₹1,799 <span class="mrp">₹3,299</span></div>
+    <div class="offer">45% off</div>
+    <div class="delivery">Get it by <b>Tuesday, 10 Sept</b></div>
+    <button>Add to Cart</button>
+  </div>
+
+  <!-- Product 8 -->
+  <div class="product">
+    <img src="images/s1.jpg" alt="Kids Sneakers">
+    <h3>Premium Kids Sneakers</h3>
+    <div class="rating">⭐⭐⭐⭐☆ <span>(203)</span></div>
+    <div class="price">₹1,499 <span class="mrp">₹2,799</span></div>
+    <div class="offer">46% off</div>
+    <div class="delivery">Get it by <b>Wednesday, 11 Sept</b></div>
+    <button>Add to Cart</button>
+  </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <h3>Shopping</h3>
+        <p><a href="man.html">Men's Footwear</a></p>
+        <p><a href="women.html">Women's Footwear</a></p>
+        <p><a href="kid.html">Kids' Footwear</a></p>
+        <p><a href="#">Sale & Offers</a></p>
+      </div>
+      <div class="footer-col">
+        <h3>Company</h3>
+        <p><a href="#">About WalkWay</a></p>
+        <p><a href="#">Careers</a></p>
+        <p><a href="#">Our Stores</a></p>
+        <p><a href="#">Contact Us</a></p>
+      </div>
+      <div class="footer-col">
+        <h3>Customer Care</h3>
+        <p><a href="#">FAQs</a></p>
+        <p><a href="#">Size Guide</a></p>
+        <p><a href="#">Return Policy</a></p>
+        <p><a href="#">Track Order</a></p>
+      </div>
+      <div class="footer-col">
+        <h3>Connect With Us</h3>
+        <p><a href="#">Facebook</a></p>
+        <p><a href="#">Instagram</a></p>
+        <p><a href="#">Twitter</a></p>
+        <p><a href="#">YouTube</a></p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 WalkWay. All rights reserved. | Designed with ❤️ for shoe lovers</p>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
