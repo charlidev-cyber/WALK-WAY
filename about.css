@@ -807,11 +807,16 @@ body {
 /* Responsive Design - Mobile Only */
 @media (max-width: 768px) {
   body {
-    padding-top: 140px;
+    padding-top: 80px;
+  }
+  
+  .header {
+    padding: 10px 0;
   }
   
   .header .container {
     position: relative;
+    padding: 10px 20px;
   }
   
   .mobile-menu-toggle {
@@ -875,7 +880,7 @@ body {
 
 @media (max-width: 480px) {
   body {
-    padding-top: 120px;
+    padding-top: 70px;
   }
   
   .logo {
