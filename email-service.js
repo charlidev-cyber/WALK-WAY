@@ -7,25 +7,68 @@ class EmailService {
         this.serviceId = 'service_58xhxmj'; // Your EmailJS service ID
         this.templateId = 'template_8wm274b'; // Your EmailJS template ID
         this.publicKey = 'w3dm9bQ8u4Km3IY1c'; // Your EmailJS public key
+        this.isInitialized = false;
         
         // Load EmailJS library
         this.loadEmailJS();
     }
     
     loadEmailJS() {
-        if (!window.emailjs) {
+        return new Promise((resolve, reject) => {
+            if (window.emailjs) {
+                if (!this.isInitialized) {
+                    emailjs.init(this.publicKey);
+                    this.isInitialized = true;
+                }
+                resolve();
+                return;
+            }
+            
             const script = document.createElement('script');
             script.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js';
             script.onload = () => {
-                emailjs.init(this.publicKey);
+                try {
+                    emailjs.init(this.publicKey);
+                    this.isInitialized = true;
+                    console.log('EmailJS initialized successfully');
+                    resolve();
+                } catch (error) {
+                    console.error('EmailJS initialization failed:', error);
+                    reject(error);
+                }
+            };
+            script.onerror = () => {
+                console.error('Failed to load EmailJS library');
+                reject(new Error('Failed to load EmailJS library'));
             };
             document.head.appendChild(script);
+        });
+    }
+    
+    async waitForInitialization() {
+        if (this.isInitialized && window.emailjs) {
+            return true;
         }
+        
+        // Wait up to 5 seconds for initialization
+        for (let i = 0; i < 50; i++) {
+            if (this.isInitialized && window.emailjs) {
+                return true;
+            }
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
+        
+        throw new Error('EmailJS failed to initialize within timeout period');
     }
     
     // Send order confirmation email
     async sendOrderConfirmation(orderData) {
         try {
+            // Wait for EmailJS to be properly initialized
+            await this.waitForInitialization();
+            
+            console.log('Sending order confirmation email for order:', orderData.orderId);
+            
             // Customer confirmation email
             const customerParams = {
                 to_email: orderData.customerInfo.email,
@@ -39,12 +82,16 @@ class EmailService {
                 phone: orderData.customerInfo.phone
             };
             
+            console.log('Customer email params:', customerParams);
+            
             // Send customer confirmation
             const customerResponse = await emailjs.send(
                 this.serviceId,
                 this.templateId,
                 customerParams
             );
+            
+            console.log('Customer email sent successfully:', customerResponse);
             
             // Admin notification email (to you)
             const adminParams = {
@@ -62,24 +109,19 @@ class EmailService {
                 payment_method: orderData.paymentMethod
             };
             
-            // Send admin notification (use different template if available)
+            console.log('Admin email params:', adminParams);
+            
+            // Send admin notification using same template
             try {
-                await emailjs.send(
-                    this.serviceId,
-                    'template_admin_alert', // Create this template for admin notifications
-                    adminParams
-                );
-                console.log('Admin notification sent');
-            } catch (adminError) {
-                // If admin template doesn't exist, send to same template
-                adminParams.to_email = 'debaprakash09@gmail.com';
-                adminParams.to_name = 'Admin';
-                await emailjs.send(
+                const adminResponse = await emailjs.send(
                     this.serviceId,
                     this.templateId,
                     adminParams
                 );
-                console.log('Admin notification sent using customer template');
+                console.log('Admin notification sent successfully:', adminResponse);
+            } catch (adminError) {
+                console.error('Admin email failed:', adminError);
+                // Don't fail the whole process if admin email fails
             }
             
             console.log('Order confirmation email sent:', customerResponse);
@@ -91,26 +133,73 @@ class EmailService {
         }
     }
     
-    // Send welcome email for new registration
+    // Send welcome email for new registration + admin notification
     async sendWelcomeEmail(userData) {
         try {
-            const templateParams = {
+            await this.waitForInitialization();
+            
+            console.log('Sending welcome email and admin notification for new user:', userData.email);
+            
+            // Welcome email to new user
+            const welcomeParams = {
                 to_email: userData.email,
                 to_name: `${userData.firstName} ${userData.lastName}`,
-                join_date: userData.joinDate
+                order_id: `NEW_USER_${Date.now()}`,
+                order_date: userData.joinDate,
+                total_amount: 'Welcome Bonus',
+                items_list: `New User Registration - ${userData.firstName} ${userData.lastName}`,
+                delivery_address: `Email: ${userData.email}, Phone: ${userData.phone}`,
+                payment_method: 'Account Registration',
+                phone: userData.phone
             };
             
-            const response = await emailjs.send(
+            console.log('Welcome email params:', welcomeParams);
+            
+            // Send welcome email to user
+            const userResponse = await emailjs.send(
                 this.serviceId,
-                'template_welcome',
-                templateParams
+                this.templateId,
+                welcomeParams
             );
             
-            console.log('Welcome email sent:', response);
-            return { success: true, response };
+            console.log('Welcome email sent to user:', userResponse);
+            
+            // Admin notification about new registration
+            const adminParams = {
+                to_email: 'debaprakash09@gmail.com',
+                to_name: 'WalkWay Admin',
+                order_id: `NEW_REGISTRATION_${Date.now()}`,
+                order_date: userData.joinDate,
+                total_amount: 'New User Alert',
+                items_list: `🎉 New User Registered!\n\nName: ${userData.firstName} ${userData.lastName}\nEmail: ${userData.email}\nPhone: ${userData.phone}\nJoin Date: ${userData.joinDate}`,
+                delivery_address: `User Details: ${userData.firstName} ${userData.lastName}`,
+                payment_method: 'New Account Registration',
+                phone: userData.phone,
+                customer_name: `${userData.firstName} ${userData.lastName}`,
+                customer_email: userData.email,
+                customer_phone: userData.phone
+            };
+            
+            console.log('Admin notification params:', adminParams);
+            
+            // Send admin notification
+            try {
+                const adminResponse = await emailjs.send(
+                    this.serviceId,
+                    this.templateId,
+                    adminParams
+                );
+                console.log('Admin notification sent successfully:', adminResponse);
+            } catch (adminError) {
+                console.error('Admin notification failed:', adminError);
+                // Don't fail the whole process if admin email fails
+            }
+            
+            console.log('Registration emails sent successfully');
+            return { success: true, response: userResponse };
             
         } catch (error) {
-            console.error('Failed to send welcome email:', error);
+            console.error('Failed to send registration emails:', error);
             return { success: false, error };
         }
     }
