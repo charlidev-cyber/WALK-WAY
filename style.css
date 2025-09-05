@@ -535,3 +535,196 @@ h2 {
   display: block;
 }
 
+/* Responsive Design */
+@media (max-width: 768px) {
+  body {
+    padding-top: 140px;
+  }
+  
+  .header .container {
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px 20px;
+  }
+  
+  .header-left {
+    order: 2;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .logo {
+    order: 1;
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .header-right {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .search-container {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .search-input {
+    width: 100%;
+  }
+  
+  .action-btn {
+    font-size: 11px;
+    padding: 6px 12px;
+  }
+  
+  .nav {
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+  }
+  
+  .nav a {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+  
+  .hero {
+    height: 60vh;
+  }
+  
+  .hero-content h1 {
+    font-size: 28px;
+  }
+  
+  .hero-content p {
+    font-size: 16px;
+  }
+  
+  .hero-content .btn {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+  
+  .info-boxes {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+  }
+  
+  .info-boxes .box {
+    padding: 15px;
+  }
+  
+  section {
+    padding: 20px 15px;
+  }
+  
+  .products {
+    gap: 15px;
+  }
+  
+  .product {
+    flex: 1 1 calc(50% - 15px);
+    min-width: 150px;
+  }
+  
+  .product img {
+    height: 200px;
+  }
+  
+  .product h3 {
+    font-size: 14px;
+  }
+  
+  .product p {
+    font-size: 14px;
+  }
+  
+  .product button {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  
+  .footer-col {
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    height: 50vh;
+  }
+  
+  .hero-content h1 {
+    font-size: 24px;
+  }
+  
+  .hero-content p {
+    font-size: 14px;
+  }
+  
+  .hero-content .btn {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+  
+  .products {
+    gap: 10px;
+  }
+  
+  .product {
+    flex: 1 1 100%;
+    min-width: unset;
+  }
+  
+  .product img {
+    height: 180px;
+  }
+  
+  .product h3 {
+    font-size: 13px;
+  }
+  
+  .product p {
+    font-size: 13px;
+  }
+  
+  .wishlist-heart {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .rating {
+    font-size: 12px;
+  }
+  
+  .price {
+    font-size: 16px;
+  }
+  
+  .price .mrp {
+    font-size: 12px;
+  }
+  
+  .offer {
+    font-size: 11px;
+  }
+  
+  .delivery-text,
+  .delivery-date {
+    font-size: 12px;
+  }
+  
+  .delivery-condition {
+    font-size: 11px;
+  }
+}
+
