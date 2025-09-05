@@ -703,7 +703,7 @@ body {
 /* Responsive Design */
 @media (max-width: 768px) {
   body {
-    padding-top: 140px;
+    padding-top: 160px;
   }
   
   .header .container {
