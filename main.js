@@ -513,6 +513,44 @@ document.addEventListener('DOMContentLoaded', () => {
     window.walkwayStore = new WalkWayStore();
 });
 
+// Mobile Navigation Functions
+function toggleMobileNav() {
+    const overlay = document.getElementById('mobileNavOverlay');
+    if (overlay) {
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
+}
+
+function closeMobileNav() {
+    const overlay = document.getElementById('mobileNavOverlay');
+    if (overlay) {
+        overlay.classList.remove('active');
+        document.body.style.overflow = ''; // Restore scrolling
+    }
+}
+
+// Close mobile menu when clicking on overlay or navigation links
+document.addEventListener('DOMContentLoaded', () => {
+    const overlay = document.getElementById('mobileNavOverlay');
+    if (overlay) {
+        // Close when clicking on overlay background
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) {
+                closeMobileNav();
+            }
+        });
+        
+        // Close when clicking on navigation links in mobile menu
+        const mobileNavLinks = overlay.querySelectorAll('.nav a');
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                closeMobileNav();
+            });
+        });
+    }
+});
+
 // Additional utility functions for specific pages
 function clearSearch() {
     const products = document.querySelectorAll('.product');
