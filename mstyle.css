@@ -517,3 +517,153 @@ h2 {
   margin-bottom: 10px;
 }
 
+/* Responsive Design */
+@media (max-width: 768px) {
+  body {
+    padding-top: 140px;
+  }
+  
+  .header .container {
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px 20px;
+  }
+  
+  .header-left {
+    order: 2;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .logo {
+    order: 1;
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .header-right {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .search-container {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .search-input {
+    width: 100%;
+  }
+  
+  .action-btn {
+    font-size: 11px;
+    padding: 6px 12px;
+  }
+  
+  .nav {
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+  }
+  
+  .nav a {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+  
+  .hero {
+    height: 300px;
+    margin: 10px 0;
+  }
+  
+  .caption {
+    bottom: 10%;
+    left: 5%;
+    right: 5%;
+    padding: 15px 20px;
+  }
+  
+  .caption h2 {
+    font-size: 1.8rem;
+  }
+  
+  .caption p {
+    font-size: 1rem;
+  }
+  
+  .prev, .next {
+    font-size: 1.5rem;
+    padding: 10px 12px;
+  }
+  
+  .prev {
+    left: 15px;
+  }
+  
+  .next {
+    right: 15px;
+  }
+  
+  .line-separator span {
+    font-size: 1.2rem;
+    margin: 0 15px;
+  }
+  
+  .products {
+    justify-content: center;
+  }
+  
+  .product {
+    flex: 1 1 calc(50% - 15px);
+    min-width: 150px;
+    padding: 12px;
+  }
+  
+  .product img {
+    height: 150px;
+  }
+  
+  .product h3 {
+    font-size: 14px;
+  }
+  
+  .rating {
+    font-size: 12px;
+  }
+  
+  .price {
+    font-size: 14px;
+  }
+  
+  .offer, .delivery {
+    font-size: 12px;
+  }
+  
+  section {
+    padding: 20px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .product {
+    flex: 1 1 100%;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+  
+  .caption h2 {
+    font-size: 1.5rem;
+  }
+  
+  .caption p {
+    font-size: 0.9rem;
+  }
+  
+  .line-separator span {
+    font-size: 1rem;
+    margin: 0 10px;
+  }
+}
+
