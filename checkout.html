@@ -216,6 +216,7 @@
 
     <script src="main.js"></script>
     <script src="email-service.js"></script>
+    <script src="notification-service.js"></script>
     <script>
         // Load checkout page data
         document.addEventListener('DOMContentLoaded', function() {
@@ -287,31 +288,31 @@
             submitBtn.disabled = true;
 
             try {
-                // Send email confirmation
-                let emailResult = { success: false };
+                // Send notifications via multiple methods
+                let notificationResult = { success: false };
                 try {
-                    // Wait for email service to be ready
+                    // Try EmailJS first
                     if (window.emailService) {
-                        console.log('Sending email with data:', orderData);
-                        emailResult = await window.emailService.sendOrderConfirmation(orderData);
-                        console.log('Email result:', emailResult);
-                        
+                        console.log('Trying EmailJS...');
+                        const emailResult = await window.emailService.sendOrderConfirmation(orderData);
                         if (emailResult.success) {
-                            console.log('✅ Email sent successfully!');
-                        } else {
-                            console.error('❌ Email failed:', emailResult.error);
-                        }
-                    } else {
-                        console.warn('Email service not available');
-                        // Try to initialize email service
-                        if (window.EmailService) {
-                            window.emailService = new EmailService();
-                            await new Promise(resolve => setTimeout(resolve, 2000)); // Wait 2 seconds
-                            emailResult = await window.emailService.sendOrderConfirmation(orderData);
+                            console.log('✅ EmailJS successful!');
+                            notificationResult = emailResult;
                         }
                     }
-                } catch (emailError) {
-                    console.error('Email service error:', emailError);
+                    
+                    // Always use alternative notification methods
+                    if (window.notificationService) {
+                        console.log('Sending via alternative notification methods...');
+                        const altResult = await window.notificationService.sendOrderNotification(orderData);
+                        console.log('Alternative notifications result:', altResult);
+                        
+                        if (altResult.success) {
+                            notificationResult = { success: true, methods: altResult.methods };
+                        }
+                    }
+                } catch (error) {
+                    console.error('Notification error:', error);
                 }
 
                 // Save order to localStorage
@@ -324,7 +325,7 @@
                 
                 // Redirect to success page
                 localStorage.setItem('lastOrderId', orderData.orderId);
-                localStorage.setItem('emailSent', emailResult?.success ? 'true' : 'false');
+                localStorage.setItem('emailSent', notificationResult?.success ? 'true' : 'false');
                 window.location.href = 'order-success.html';
                 
             } catch (error) {
