@@ -241,6 +241,19 @@
         localStorage.setItem('walkway_user', JSON.stringify(userData));
         localStorage.setItem('walkway_logged_in', 'true');
         
+        // Send welcome email and admin notification
+        if (window.emailService) {
+          window.emailService.sendWelcomeEmail(userData).then(result => {
+            if (result.success) {
+              console.log('✅ Registration emails sent successfully!');
+            } else {
+              console.error('❌ Registration email failed:', result.error);
+            }
+          }).catch(error => {
+            console.error('Registration email error:', error);
+          });
+        }
+        
         alert('Account created successfully! Welcome to WalkWay!');
         window.location.href = 'index.html';
         
@@ -263,5 +276,6 @@
     }
   </script>
 
+  <script src="email-service.js"></script>
 </body>
 </html>
