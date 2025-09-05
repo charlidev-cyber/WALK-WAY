@@ -538,7 +538,7 @@ h2 {
 /* Responsive Design */
 @media (max-width: 768px) {
   body {
-    padding-top: 140px;
+    padding-top: 160px;
   }
   
   .header .container {
@@ -593,6 +593,7 @@ h2 {
   
   .hero {
     height: 60vh;
+    margin-top: 0;
   }
   
   .hero-content h1 {
