@@ -206,14 +206,61 @@
           });
           
           if (isValid) {
-            // Here you would typically send the data to your server
-            alert('Form submitted successfully! (This is a demo)');
+            handleLogin(form);
           } else {
             alert('Please fill in all required fields.');
           }
         });
       });
     });
+    
+    function handleLogin(form) {
+      const formData = new FormData(form);
+      const isSignUp = form.closest('#signup-form');
+      
+      if (isSignUp) {
+        // Sign Up Logic
+        const password = formData.get('password');
+        const confirmPassword = formData.get('confirm-password');
+        
+        if (password !== confirmPassword) {
+          alert('Passwords do not match!');
+          return;
+        }
+        
+        const userData = {
+          firstName: formData.get('firstname'),
+          lastName: formData.get('lastname'),
+          email: formData.get('email'),
+          phone: formData.get('phone'),
+          password: password,
+          joinDate: new Date().toLocaleDateString()
+        };
+        
+        // Save user data
+        localStorage.setItem('walkway_user', JSON.stringify(userData));
+        localStorage.setItem('walkway_logged_in', 'true');
+        
+        alert('Account created successfully! Welcome to WalkWay!');
+        window.location.href = 'index.html';
+        
+      } else {
+        // Sign In Logic
+        const email = formData.get('email');
+        const password = formData.get('password');
+        
+        // Check if user exists
+        const savedUser = JSON.parse(localStorage.getItem('walkway_user'));
+        
+        if (savedUser && savedUser.email === email && savedUser.password === password) {
+          localStorage.setItem('walkway_logged_in', 'true');
+          alert('Welcome back to WalkWay!');
+          window.location.href = 'index.html';
+        } else {
+          alert('Invalid email or password. Please try again or create a new account.');
+        }
+      }
+    }
   </script>
 
 </body>
