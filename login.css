@@ -9,7 +9,7 @@ body {
   background: #f5f5f5;
   color: #333;
   line-height: 1.6;
-  padding-top: 120px;
+  padding-top: 80px;
 }
 
 .container {
@@ -32,7 +32,7 @@ body {
 
 .header .container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 15px 20px;
 }
@@ -555,6 +555,47 @@ body {
   border-top: 1px solid rgba(255, 255, 255, 0.2);
   color: rgba(255, 255, 255, 0.8);
   font-size: 14px;
+}
+
+/* Back Button */
+.back-button-container {
+  text-align: center;
+  padding: 30px 20px;
+  background: #f5f5f5;
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+}
+
+.back-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(243, 156, 18, 0.3);
+}
+
+.back-btn:active {
+  transform: translateY(0);
+}
+
+.back-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.back-btn:hover svg {
+  transform: translateX(-3px);
 }
 
 /* Responsive Design */
