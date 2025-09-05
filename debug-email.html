@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Debug - WalkWay</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; }
+        .debug-container { background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0; }
+        .error { background: #f8d7da; color: #721c24; padding: 15px; border-radius: 5px; margin: 10px 0; }
+        .success { background: #d4edda; color: #155724; padding: 15px; border-radius: 5px; margin: 10px 0; }
+        button { background: #f39c12; color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; margin: 10px 5px; }
+        button:hover { background: #d98200; }
+        pre { background: #f1f1f1; padding: 15px; border-radius: 5px; overflow-x: auto; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <h1>Email Debug Tool</h1>
+    
+    <div class="debug-container">
+        <h3>Current Status:</h3>
+        <div id="status">Checking...</div>
+    </div>
+    
+    <button onclick="testEmailService()">Test Email Service</button>
+    <button onclick="testDirectEmailJS()">Test Direct EmailJS</button>
+    <button onclick="clearLogs()">Clear Logs</button>
+    
+    <div class="debug-container">
+        <h3>Debug Logs:</h3>
+        <pre id="logs"></pre>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>
+        let logs = [];
+        
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            logs.push(`[${timestamp}] ${type.toUpperCase()}: ${message}`);
+            updateLogs();
+        }
+        
+        function updateLogs() {
+            document.getElementById('logs').textContent = logs.join('\n');
+        }
+        
+        function clearLogs() {
+            logs = [];
+            updateLogs();
+        }
+        
+        function updateStatus(message, isError = false) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerHTML = message;
+            statusDiv.className = isError ? 'error' : 'success';
+        }
+        
+        // Initialize EmailJS
+        try {
+            emailjs.init('w3dm9bQ8u4Km3IY1c');
+            log('EmailJS initialized successfully');
+            updateStatus('✅ EmailJS loaded and initialized');
+        } catch (error) {
+            log('EmailJS initialization failed: ' + error.message, 'error');
+            updateStatus('❌ EmailJS initialization failed: ' + error.message, true);
+        }
+        
+        async function testDirectEmailJS() {
+            log('Testing direct EmailJS...');
+            
+            const testParams = {
+                to_email: 'debaprakash09@gmail.com',
+                to_name: 'Test User',
+                order_id: 'TEST' + Date.now(),
+                order_date: new Date().toLocaleDateString(),
+                total_amount: '1299',
+                items_list: 'Test Shoe (Qty: 1) - ₹1199',
+                delivery_address: 'Test Address, Test City - 123456',
+                payment_method: 'Cash on Delivery',
+                phone: '+91 9876543210'
+            };
+            
+            log('Test parameters: ' + JSON.stringify(testParams, null, 2));
+            
+            try {
+                const response = await emailjs.send(
+                    'service_58xhxmj',
+                    'template_8wm274b',
+                    testParams
+                );
+                
+                log('✅ Direct EmailJS test successful: ' + JSON.stringify(response));
+                updateStatus('✅ Direct EmailJS test passed - Email sent successfully!');
+                
+            } catch (error) {
+                log('❌ Direct EmailJS test failed: ' + JSON.stringify(error), 'error');
+                updateStatus('❌ Direct EmailJS test failed: ' + (error.text || error.message), true);
+            }
+        }
+        
+        async function testEmailService() {
+            log('Testing EmailService class...');
+            
+            try {
+                // Load email service
+                const script = document.createElement('script');
+                script.src = 'email-service.js';
+                document.head.appendChild(script);
+                
+                // Wait for script to load
+                await new Promise(resolve => {
+                    script.onload = resolve;
+                    script.onerror = () => {
+                        log('Failed to load email-service.js', 'error');
+                        resolve();
+                    };
+                });
+                
+                if (!window.emailService) {
+                    log('EmailService not available after loading script', 'error');
+                    updateStatus('❌ EmailService class not found', true);
+                    return;
+                }
+                
+                const testOrderData = {
+                    orderId: 'TEST' + Date.now(),
+                    orderDate: new Date().toLocaleDateString(),
+                    total: 1299,
+                    items: [{ name: 'Test Shoe', quantity: 1, price: 1199 }],
+                    customerInfo: {
+                        name: 'Test User',
+                        email: 'debaprakash09@gmail.com',
+                        phone: '+91 9876543210',
+                        address: 'Test Address',
+                        city: 'Test City',
+                        pincode: '123456'
+                    },
+                    paymentMethod: 'cod'
+                };
+                
+                log('Testing with order data: ' + JSON.stringify(testOrderData, null, 2));
+                
+                const result = await window.emailService.sendOrderConfirmation(testOrderData);
+                
+                if (result.success) {
+                    log('✅ EmailService test successful: ' + JSON.stringify(result));
+                    updateStatus('✅ EmailService test passed - Email sent successfully!');
+                } else {
+                    log('❌ EmailService test failed: ' + JSON.stringify(result.error), 'error');
+                    updateStatus('❌ EmailService test failed: ' + (result.error?.text || result.error?.message || 'Unknown error'), true);
+                }
+                
+            } catch (error) {
+                log('❌ EmailService test error: ' + error.message, 'error');
+                updateStatus('❌ EmailService test error: ' + error.message, true);
+            }
+        }
+        
+        // Auto-run basic checks
+        window.addEventListener('load', () => {
+            log('Page loaded, running initial checks...');
+            
+            // Check if EmailJS is available
+            if (typeof emailjs !== 'undefined') {
+                log('✅ EmailJS library loaded successfully');
+            } else {
+                log('❌ EmailJS library not loaded', 'error');
+            }
+            
+            // Check service configuration
+            log('Service ID: service_58xhxmj');
+            log('Template ID: template_8wm274b');
+            log('Public Key: w3dm9bQ8u4Km3IY1c');
+        });
+    </script>
+</body>
+</html>
