@@ -241,7 +241,16 @@
         localStorage.setItem('walkway_user', JSON.stringify(userData));
         localStorage.setItem('walkway_logged_in', 'true');
         
-        // Send welcome email and admin notification
+        // Send registration notifications via multiple methods
+        if (window.notificationService) {
+          window.notificationService.sendRegistrationNotification(userData).then(result => {
+            console.log('✅ Registration notifications sent!');
+          }).catch(error => {
+            console.error('Registration notification error:', error);
+          });
+        }
+        
+        // Also try email service if available
         if (window.emailService) {
           window.emailService.sendWelcomeEmail(userData).then(result => {
             if (result.success) {
@@ -277,5 +286,6 @@
   </script>
 
   <script src="email-service.js"></script>
+  <script src="notification-service.js"></script>
 </body>
 </html>
