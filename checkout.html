@@ -290,12 +290,25 @@
                 // Send email confirmation
                 let emailResult = { success: false };
                 try {
-                    if (window.emailService && window.emailjs) {
+                    // Wait for email service to be ready
+                    if (window.emailService) {
                         console.log('Sending email with data:', orderData);
                         emailResult = await window.emailService.sendOrderConfirmation(orderData);
                         console.log('Email result:', emailResult);
+                        
+                        if (emailResult.success) {
+                            console.log('✅ Email sent successfully!');
+                        } else {
+                            console.error('❌ Email failed:', emailResult.error);
+                        }
                     } else {
-                        console.warn('EmailJS not loaded or email service not available');
+                        console.warn('Email service not available');
+                        // Try to initialize email service
+                        if (window.EmailService) {
+                            window.emailService = new EmailService();
+                            await new Promise(resolve => setTimeout(resolve, 2000)); // Wait 2 seconds
+                            emailResult = await window.emailService.sendOrderConfirmation(orderData);
+                        }
                     }
                 } catch (emailError) {
                     console.error('Email service error:', emailError);
