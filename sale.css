@@ -870,12 +870,71 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  body {
+    padding-top: 140px;
+  }
+  
+  .header .container {
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px 20px;
+  }
+  
+  .header-left {
+    order: 2;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .logo {
+    order: 1;
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .header-right {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .search-container {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .search-input {
+    width: 100%;
+  }
+  
+  .action-btn {
+    font-size: 11px;
+    padding: 6px 12px;
+  }
+  
+  .nav {
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+  }
+  
+  .nav a {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+  
   .sale-title {
     font-size: 2.5rem;
   }
   
+  .sale-subtitle {
+    font-size: 1.2rem;
+  }
+  
   .countdown-timer {
     gap: 10px;
+    flex-wrap: wrap;
   }
   
   .timer-box {
@@ -889,23 +948,88 @@ body {
   
   .category-grid {
     grid-template-columns: 1fr;
+    gap: 20px;
   }
   
   .deals-grid,
   .products-grid {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
   }
   
   .flash-products {
     grid-template-columns: 1fr;
+    gap: 20px;
   }
   
   .filter-bar {
     gap: 10px;
+    flex-wrap: wrap;
   }
   
   .filter-btn {
     padding: 10px 20px;
     font-size: 0.9rem;
+  }
+  
+  .section-header h2 {
+    font-size: 2rem;
+  }
+  
+  .flash-header h2 {
+    font-size: 2rem;
+  }
+  
+  .all-sale-products h2 {
+    font-size: 2rem;
+  }
+  
+  .sale-categories h2 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .sale-title {
+    font-size: 2rem;
+  }
+  
+  .sale-subtitle {
+    font-size: 1rem;
+  }
+  
+  .countdown-timer {
+    gap: 8px;
+  }
+  
+  .timer-box {
+    padding: 10px;
+    min-width: 50px;
+  }
+  
+  .timer-box span {
+    font-size: 1.5rem;
+  }
+  
+  .deals-grid,
+  .products-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .category-card {
+    height: 250px;
+  }
+  
+  .section-header h2,
+  .flash-header h2,
+  .all-sale-products h2,
+  .sale-categories h2 {
+    font-size: 1.8rem;
+  }
+  
+  .filter-btn {
+    padding: 8px 15px;
+    font-size: 0.8rem;
   }
 }
