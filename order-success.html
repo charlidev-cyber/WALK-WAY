@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Placed - WalkWay</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .success-container {
+            background: white;
+            border-radius: 20px;
+            padding: 60px 40px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .success-icon {
+            font-size: 80px;
+            margin-bottom: 30px;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        .success-container h1 {
+            color: #28a745;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        
+        .order-id {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #f39c12;
+        }
+        
+        .order-id strong {
+            color: #f39c12;
+            font-size: 18px;
+        }
+        
+        .success-message {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: #f39c12;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #d98200;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: #f39c12;
+            border: 2px solid #f39c12;
+        }
+        
+        .btn-secondary:hover {
+            background: #f39c12;
+            color: white;
+        }
+        
+        @media (max-width: 480px) {
+            .success-container {
+                padding: 40px 20px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-icon">🎉</div>
+        <h1>Order Placed Successfully!</h1>
+        
+        <div class="order-id">
+            <p>Your Order ID: <strong id="orderId">Loading...</strong></p>
+        </div>
+        
+        <div class="success-message">
+            <p>Thank you for shopping with WalkWay! Your order has been confirmed and will be processed shortly.</p>
+            <p id="emailStatus">You will receive a confirmation email with tracking details.</p>
+        </div>
+        
+        <div class="action-buttons">
+            <a href="index.html" class="btn btn-primary">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                </svg>
+                Continue Shopping
+            </a>
+            <button onclick="showOrders()" class="btn btn-secondary">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                </svg>
+                View Orders
+            </button>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const orderId = localStorage.getItem('lastOrderId');
+            const emailSent = localStorage.getItem('emailSent');
+            
+            if (orderId) {
+                document.getElementById('orderId').textContent = orderId;
+                localStorage.removeItem('lastOrderId');
+            } else {
+                document.getElementById('orderId').textContent = 'ORD' + Date.now();
+            }
+            
+            // Update email status message
+            const emailStatusEl = document.getElementById('emailStatus');
+            if (emailSent === 'true') {
+                emailStatusEl.innerHTML = '✅ Confirmation email sent successfully to your email address!';
+                emailStatusEl.style.color = '#28a745';
+            } else {
+                emailStatusEl.innerHTML = '📧 Email confirmation will be sent shortly. Please check your inbox.';
+                emailStatusEl.style.color = '#666';
+            }
+            
+            localStorage.removeItem('emailSent');
+        });
+    </script>
+</body>
+</html>
