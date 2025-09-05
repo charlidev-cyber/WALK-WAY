@@ -13,6 +13,7 @@ class WalkWayStore {
         this.updateWishlistCount();
         this.bindEvents();
         this.initSearch();
+        checkLoginStatus();
     }
 
     // Cart Functionality
@@ -227,7 +228,17 @@ class WalkWayStore {
         const id = Date.now() + Math.random(); // Simple ID generation
         const name = productElement.querySelector('h3')?.textContent || 'Unknown Product';
         const priceElement = productElement.querySelector('.price');
-        const price = priceElement ? priceElement.textContent.replace(/[^\d.,]/g, '') : '0';
+        
+        // Extract only the actual price (first number), not MRP
+        let price = 0;
+        if (priceElement) {
+            const priceText = priceElement.textContent;
+            const priceMatch = priceText.match(/₹([\d,]+)/);
+            if (priceMatch) {
+                price = parseFloat(priceMatch[1].replace(/,/g, ''));
+            }
+        }
+        
         const image = productElement.querySelector('img')?.src || '';
 
         return { id, name, price, image };
@@ -250,7 +261,7 @@ class WalkWayStore {
 
     createCartModal() {
         const modal = document.createElement('div');
-        modal.className = 'modal-overlay';
+        modal.className = 'modal';
         modal.style.cssText = `
             position: fixed;
             top: 0;
@@ -296,7 +307,7 @@ class WalkWayStore {
             let total = 0;
 
             this.cart.forEach(item => {
-                const itemTotal = parseFloat(item.price.replace(/[^\d.]/g, '')) * item.quantity;
+                const itemTotal = parseFloat(item.price) * item.quantity;
                 total += itemTotal;
                 
                 cartHTML += `
@@ -340,7 +351,7 @@ class WalkWayStore {
             }
             if (e.target.classList.contains('checkout-btn')) {
                 modal.remove();
-                this.showNotification('Checkout functionality coming soon!', 'info');
+                window.location.href = 'checkout.html';
             }
         });
 
@@ -566,6 +577,262 @@ function clearSearch() {
     if (window.walkwayStore) {
         window.walkwayStore.showNotification('Search cleared', 'info');
     }
+}
+
+// Check login status and update header
+function checkLoginStatus() {
+    const isLoggedIn = localStorage.getItem('walkway_logged_in') === 'true';
+    const user = JSON.parse(localStorage.getItem('walkway_user'));
+    
+    if (isLoggedIn && user) {
+        updateHeaderForLoggedInUser(user);
+    }
+}
+
+function updateHeaderForLoggedInUser(user) {
+    const loginBtn = document.querySelector('.login-btn');
+    if (loginBtn) {
+        loginBtn.innerHTML = `
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            ${user.firstName}
+        `;
+        loginBtn.href = 'profile.html';
+    }
+}
+
+function logout() {
+    localStorage.removeItem('walkway_logged_in');
+    localStorage.removeItem('walkway_user');
+    window.location.reload();
+}
+
+// Checkout functionality
+function showCheckout() {
+    const cart = JSON.parse(localStorage.getItem('walkway_cart')) || [];
+    if (cart.length === 0) {
+        window.walkwayStore.showNotification('Your cart is empty!', 'error');
+        return;
+    }
+
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.innerHTML = `
+        <div class="checkout-content">
+            <div class="checkout-header">
+                <h2>Checkout</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            
+            <div class="checkout-body">
+                <div class="order-summary">
+                    <h3>Order Summary</h3>
+                    <div class="order-items">
+                        ${cart.map(item => `
+                            <div class="order-item">
+                                <img src="${item.image}" alt="${item.name}">
+                                <div class="item-details">
+                                    <h4>${item.name}</h4>
+                                    <p>₹${item.price} × ${item.quantity}</p>
+                                </div>
+                                <div class="item-total">₹${item.price * item.quantity}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="order-total">
+                        <div class="subtotal">Subtotal: ₹${cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)}</div>
+                        <div class="shipping">Shipping: ₹99</div>
+                        <div class="total">Total: ₹${cart.reduce((sum, item) => sum + (item.price * item.quantity), 0) + 99}</div>
+                    </div>
+                </div>
+                
+                <div class="checkout-form">
+                    <h3>Shipping Information</h3>
+                    <form id="checkoutForm">
+                        <div class="form-group">
+                            <label>Full Name *</label>
+                            <input type="text" name="fullName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email *</label>
+                            <input type="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone *</label>
+                            <input type="tel" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Address *</label>
+                            <textarea name="address" required></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>City *</label>
+                                <input type="text" name="city" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Pincode *</label>
+                                <input type="text" name="pincode" required>
+                            </div>
+                        </div>
+                        
+                        <h3>Payment Method</h3>
+                        <div class="payment-methods">
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="cod" checked>
+                                <span>Cash on Delivery</span>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="upi">
+                                <span>UPI Payment</span>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="card">
+                                <span>Credit/Debit Card</span>
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="place-order-btn">Place Order</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    // Handle form submission
+    const form = document.getElementById('checkoutForm');
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        placeOrder(new FormData(form));
+    });
+
+    // Close modal
+    modal.querySelector('.close-btn').addEventListener('click', () => {
+        modal.remove();
+    });
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+}
+
+function placeOrder(formData) {
+    const cart = JSON.parse(localStorage.getItem('walkway_cart')) || [];
+    const orderData = {
+        orderId: 'ORD' + Date.now(),
+        items: cart,
+        customerInfo: {
+            name: formData.get('fullName'),
+            email: formData.get('email'),
+            phone: formData.get('phone'),
+            address: formData.get('address'),
+            city: formData.get('city'),
+            pincode: formData.get('pincode')
+        },
+        paymentMethod: formData.get('payment'),
+        total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0) + 99,
+        orderDate: new Date().toLocaleDateString(),
+        status: 'Confirmed'
+    };
+
+    // Save order to localStorage
+    const orders = JSON.parse(localStorage.getItem('orders')) || [];
+    orders.push(orderData);
+    localStorage.setItem('orders', JSON.stringify(orders));
+
+    // Clear cart
+    localStorage.removeItem('walkway_cart');
+    window.walkwayStore.updateCartCount();
+
+    // Close checkout modal
+    document.querySelector('.modal').remove();
+
+    // Show success message
+    showOrderSuccess(orderData.orderId);
+}
+
+function showOrderSuccess(orderId) {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.innerHTML = `
+        <div class="success-content">
+            <div class="success-icon">✅</div>
+            <h2>Order Placed Successfully!</h2>
+            <p>Your order ID is: <strong>${orderId}</strong></p>
+            <p>You will receive a confirmation email shortly.</p>
+            <div class="success-actions">
+                <button class="continue-shopping-btn">Continue Shopping</button>
+                <button class="view-orders-btn">View Orders</button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    modal.querySelector('.continue-shopping-btn').addEventListener('click', () => {
+        modal.remove();
+    });
+
+    modal.querySelector('.view-orders-btn').addEventListener('click', () => {
+        modal.remove();
+        showOrders();
+    });
+}
+
+function showOrders() {
+    const orders = JSON.parse(localStorage.getItem('orders')) || [];
+    
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.innerHTML = `
+        <div class="orders-content">
+            <div class="orders-header">
+                <h2>My Orders</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="orders-body">
+                ${orders.length === 0 ? 
+                    '<p class="no-orders">No orders found</p>' :
+                    orders.map(order => `
+                        <div class="order-card">
+                            <div class="order-header">
+                                <div class="order-id">Order #${order.orderId}</div>
+                                <div class="order-status ${order.status.toLowerCase()}">${order.status}</div>
+                            </div>
+                            <div class="order-date">${order.orderDate}</div>
+                            <div class="order-items">
+                                ${order.items.map(item => `
+                                    <div class="order-item">
+                                        <img src="${item.image}" alt="${item.name}">
+                                        <span>${item.name} × ${item.quantity}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div class="order-total">Total: ₹${order.total}</div>
+                        </div>
+                    `).join('')
+                }
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    modal.querySelector('.close-btn').addEventListener('click', () => {
+        modal.remove();
+    });
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
 }
 
 // Filter functionality for sale page
